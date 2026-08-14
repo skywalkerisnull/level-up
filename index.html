@@ -24,6 +24,22 @@
   @keyframes marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
   @keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.15}}
   @keyframes drift{0%{transform:translateX(-6%)}100%{transform:translateX(6%)}}
+
+  /* Header: below 900px the brand + CTA share row one and the links become a
+     horizontally scrollable strip on row two. !important is needed because the
+     base styles are inline attributes, which otherwise win over these rules. */
+  @media (max-width:900px){
+    .nav-row{flex-wrap:wrap;gap:12px !important;padding:10px 16px !important}
+    .brand-sub{display:none}
+    .nav-right{display:contents !important}
+    .nav-cta{order:2;font-size:9px !important;padding:11px 13px !important}
+    .nav-links{order:3;width:100%;flex-wrap:nowrap !important;overflow-x:auto;gap:22px !important;padding-bottom:2px;scrollbar-width:none;-ms-overflow-style:none}
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{white-space:nowrap}
+  }
+  @media (max-width:420px){
+    .nav-links{gap:18px !important;font-size:12px}
+  }
 </style>
 </helmet>
 
@@ -33,20 +49,21 @@
     #080b18;overflow-x:hidden">
 
   <div style="position:sticky;top:0;z-index:50;background:rgba(8,11,24,.82);backdrop-filter:blur(10px);border-bottom:3px solid #1d2547">
-    <div style="max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;justify-content:space-between">
-      <div style="display:flex;align-items:center;gap:14px">
-        <div style="width:16px;height:16px;background:#ffc61a;box-shadow:6px 0 0 #ff4d4d, 12px 0 0 #35d07f"></div>
-        <span style="font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:.5px;color:#eef1ff">LEVEL&nbsp;UP</span>
-        <span style="font:500 12px/1 Archivo,sans-serif;color:rgba(238,241,255,.45);letter-spacing:.14em;text-transform:uppercase">Toowoomba Young Chamber</span>
+    <div class="nav-row" style="max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:14px;min-width:0">
+        <div style="width:16px;height:16px;background:#ffc61a;box-shadow:6px 0 0 #ff4d4d, 12px 0 0 #35d07f;flex:none"></div>
+        <span style="font-family:'Press Start 2P',monospace;font-size:11px;letter-spacing:.5px;color:#eef1ff;white-space:nowrap">LEVEL&nbsp;UP</span>
+        <span class="brand-sub" style="font:500 12px/1 Archivo,sans-serif;color:rgba(238,241,255,.45);letter-spacing:.14em;text-transform:uppercase">Toowoomba Young Chamber</span>
       </div>
-      <div style="display:flex;align-items:center;gap:26px">
-        <div style="display:flex;flex-wrap:wrap;gap:26px;font:600 13px/1 Archivo,sans-serif;color:rgba(238,241,255,.7)">
+      <div class="nav-right" style="display:flex;align-items:center;gap:26px;min-width:0">
+        <div class="nav-links" style="display:flex;flex-wrap:wrap;gap:26px;font:600 13px/1 Archivo,sans-serif;color:rgba(238,241,255,.7)">
           <a href="#about" style="color:inherit">The Event</a>
           <a href="#speakers" style="color:inherit">Speakers</a>
+          <a href="#program" style="color:inherit">Run Sheet</a>
           <a href="#crew" style="color:inherit">Crew</a>
           <a href="#sponsors" style="color:inherit">Sponsors</a>
         </div>
-        <a href="#waitlist" style="font-family:'Press Start 2P',monospace;font-size:10px;color:#080b18;background:#ffc61a;padding:12px 16px;border:3px solid #080b18;box-shadow:0 4px 0 #b3881a;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#fff;box-shadow:0 4px 0 #7d5f10" style-active="transform:translateY(4px);box-shadow:0 0 0 #7d5f10">GET&nbsp;UPDATES</a>
+        <a href="#waitlist" class="nav-cta" style="font-family:'Press Start 2P',monospace;font-size:10px;color:#080b18;background:#ffc61a;padding:12px 16px;border:3px solid #080b18;box-shadow:0 4px 0 #b3881a;white-space:nowrap;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#fff;box-shadow:0 4px 0 #7d5f10" style-active="transform:translateY(4px);box-shadow:0 0 0 #7d5f10">GET&nbsp;UPDATES</a>
       </div>
     </div>
   </div>
@@ -54,9 +71,9 @@
   <section style="position:relative;max-width:1160px;margin:0 auto;padding:76px 24px 40px">
     <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(58,160,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(58,160,255,.055) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)"></div>
     <div style="position:relative;display:flex;flex-direction:column;gap:30px;align-items:flex-start">
-      <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border:3px solid #1d2547;background:#0d1226">
-        <span style="width:11px;height:11px;background:#ff4d4d;animation:blink 1.6s steps(1,end) infinite"></span>
-        <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#8fa6e6">NEW GAME &nbsp;·&nbsp; 06 NOV 2026 &nbsp;·&nbsp; TOOWOOMBA</span>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border:3px solid #1d2547;background:#0d1226;max-width:100%">
+        <span style="width:11px;height:11px;background:#ff4d4d;animation:blink 1.6s steps(1,end) infinite;flex:none"></span>
+        <span style="font-family:'Press Start 2P',monospace;font-size:10px;line-height:1.9;color:#8fa6e6">NEW GAME · HALF DAY · 06 NOV 2026 · TOOWOOMBA</span>
       </div>
 
       <h1 style="margin:0;font:900 clamp(64px,13vw,168px)/0.86 Archivo,sans-serif;letter-spacing:-.045em;text-transform:uppercase;text-wrap:balance">
@@ -65,18 +82,22 @@
       </h1>
 
       <p style="margin:0;max-width:560px;font:500 20px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.72);text-wrap:pretty">
-        One night. A room full of Toowoomba's next generation of operators, builders and leaders. Real talks, no fluff panels, and the kind of conversations that actually move your career forward.
+        Half a day. A room full of Toowoomba's next generation of operators, builders and leaders. A few sharp talks, a panel worth arguing with, open Q&amp;A, and Meet the Boss — the kind of conversations that actually move your career forward.
       </p>
 
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
         <a href="#waitlist" style="font-family:'Press Start 2P',monospace;font-size:13px;line-height:1;color:#080b18;background:#35d07f;padding:20px 26px;border:4px solid #080b18;box-shadow:0 7px 0 #1c7a4b;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(7px);box-shadow:0 0 0 #1c7a4b">PRESS START ▸</a>
-        <a href="#sponsors" style="font:700 15px/1 Archivo,sans-serif;letter-spacing:.02em;color:#eef1ff;padding:20px 24px;border:3px solid #2a3462;background:#0d1226" style-hover="border-color:#ffc61a;color:#ffc61a">Sponsor the night</a>
+        <a href="#sponsors" style="font:700 15px/1 Archivo,sans-serif;letter-spacing:.02em;color:#eef1ff;padding:20px 24px;border:3px solid #2a3462;background:#0d1226" style-hover="border-color:#ffc61a;color:#ffc61a">Sponsor the day</a>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:#1d2547;border:3px solid #1d2547;width:100%;margin-top:14px">
         <div style="background:#0b1024;padding:18px 20px">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;margin-bottom:9px">DATE</div>
           <div style="font:800 22px/1 Archivo,sans-serif">6 Nov 2026</div>
+        </div>
+        <div style="background:#0b1024;padding:18px 20px">
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;margin-bottom:9px">RUN TIME</div>
+          <div style="font:800 22px/1 Archivo,sans-serif">Half day</div>
         </div>
         <div style="background:#0b1024;padding:18px 20px">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;margin-bottom:9px">VENUE</div>
@@ -107,7 +128,7 @@
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">What is Level Up?</h2>
     </div>
     <p style="margin:0 0 42px;max-width:640px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66);text-wrap:pretty">
-      A professional development night built by young Toowoomba professionals, for young Toowoomba professionals. Less lanyard-and-lecture, more skills you use on Monday.
+      A half-day professional development event built by young Toowoomba professionals, for young Toowoomba professionals. Less lanyard-and-lecture, more skills you use on Monday.
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:20px">
       <div style="border:3px solid #1d2547;background:#0d1226;padding:26px" style-hover="border-color:#ffc61a;transform:translateY(-4px)">
@@ -117,8 +138,8 @@
       </div>
       <div style="border:3px solid #1d2547;background:#0d1226;padding:26px" style-hover="border-color:#35d07f;transform:translateY(-4px)">
         <div style="width:38px;height:38px;background:#35d07f;margin-bottom:22px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.22)"></div>
-        <h3 style="margin:0 0 10px;font:800 21px/1.2 Archivo,sans-serif">A room worth being in</h3>
-        <p style="margin:0;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.6)">Founders, tradies, public servants, creatives. Structured intros so you leave with names, not a pocket of cards.</p>
+        <h3 style="margin:0 0 10px;font:800 21px/1.2 Archivo,sans-serif">Access, not autographs</h3>
+        <p style="margin:0;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.6)">Open Q&amp;A plus Meet the Boss — small-group time with the people who normally sit behind a gatekeeper.</p>
       </div>
       <div style="border:3px solid #1d2547;background:#0d1226;padding:26px" style-hover="border-color:#3aa0ff;transform:translateY(-4px)">
         <div style="width:38px;height:38px;background:#3aa0ff;margin-bottom:22px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.22)"></div>
@@ -131,7 +152,7 @@
   <section id="speakers" style="max-width:1160px;margin:0 auto;padding:88px 24px 24px;scroll-margin-top:70px">
     <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
       <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-2</span>
-      <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Speakers</h2>
+      <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Speakers &amp; panel</h2>
     </div>
     <p style="margin:0 0 42px;max-width:600px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">
       Three announcements between now and November. Hover a block to see what's coming.
@@ -140,47 +161,108 @@
       <div style="position:relative;border:3px solid #2a3462;background:#0d1226;aspect-ratio:4/5;overflow:hidden" style-hover="border-color:#ffc61a">
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
           <div style="width:76px;height:76px;background:#8a5a1f;border:4px solid #5c3a10;display:grid;place-items:center;font-family:'Press Start 2P',monospace;font-size:26px;color:#ffe6a6">?</div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">KEYNOTE<br>LOCKED</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE TALKS<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#ffc61a;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING AUG</div>
-          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The keynote</div>
-          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">A name you've heard on the radio, and a story you haven't.</div>
+          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The speakers</div>
+          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">A short run of talks. Fifteen minutes each, one idea each, no slide-deck marathons.</div>
         </div>
       </div>
       <div style="position:relative;border:3px solid #2a3462;background:#0d1226;aspect-ratio:4/5;overflow:hidden" style-hover="border-color:#35d07f">
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
           <div style="width:76px;height:76px;background:#8a5a1f;border:4px solid #5c3a10;display:grid;place-items:center;font-family:'Press Start 2P',monospace;font-size:26px;color:#ffe6a6">?</div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">WORKSHOP<br>LOCKED</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE PANEL<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#35d07f;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING SEP</div>
-          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The workshop</div>
-          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">Hands on the keyboard. Bring a real problem, leave with a plan.</div>
+          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The panel</div>
+          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">Four people who disagree, one moderator who won't let them off the hook.</div>
         </div>
       </div>
       <div style="position:relative;border:3px solid #2a3462;background:#0d1226;aspect-ratio:4/5;overflow:hidden" style-hover="border-color:#3aa0ff">
         <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px">
           <div style="width:76px;height:76px;background:#8a5a1f;border:4px solid #5c3a10;display:grid;place-items:center;font-family:'Press Start 2P',monospace;font-size:26px;color:#ffe6a6">?</div>
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">LOCAL HERO<br>LOCKED</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE BOSSES<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#3aa0ff;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING OCT</div>
-          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The local hero</div>
-          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">Someone who built something here, and will tell you what it cost.</div>
+          <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">Meet the Boss</div>
+          <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">The line-up of local leaders taking a table for the final session.</div>
         </div>
       </div>
     </div>
-    <p style="margin:26px 0 0;font:600 14px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.45)">Want to speak, or know who should? <a href="#waitlist">Put a name forward →</a></p>
+    <p style="margin:26px 0 0;font:600 14px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.45)">Want to speak, sit on the panel, or know who should? <a href="#waitlist">Put a name forward →</a></p>
+  </section>
+
+  <section id="program" style="max-width:1160px;margin:0 auto;padding:88px 24px 24px;scroll-margin-top:70px">
+    <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
+      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-3</span>
+      <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">The run sheet</h2>
+    </div>
+    <p style="margin:0 0 42px;max-width:640px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66);text-wrap:pretty">
+      Four stages, one boss. In and out in half a day, so you can still put in a shift either side of it. Exact times land with the venue.
+    </p>
+
+    <div style="display:flex;flex-direction:column;gap:14px;max-width:900px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;border:3px solid #1d2547;background:#0d1226;padding:22px 24px" style-hover="border-color:#3aa0ff">
+        <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#3aa0ff;flex:none;width:52px">1</span>
+        <div style="flex:1;min-width:200px">
+          <h3 style="margin:0 0 6px;font:800 20px/1.2 Archivo,sans-serif">Doors &amp; warm-up</h3>
+          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">Coffee, name tags, and a prompt on the table so nobody has to open with "so, what do you do?"</p>
+        </div>
+        <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">30 MIN</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;border:3px solid #1d2547;background:#0d1226;padding:22px 24px" style-hover="border-color:#ffc61a">
+        <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#ffc61a;flex:none;width:52px">2</span>
+        <div style="flex:1;min-width:200px">
+          <h3 style="margin:0 0 6px;font:800 20px/1.2 Archivo,sans-serif">The speakers</h3>
+          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">A handful of short talks, back to back. One idea each, fifteen minutes each, no rambling.</p>
+        </div>
+        <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">60 MIN</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;border:3px solid #1d2547;background:#0d1226;padding:22px 24px" style-hover="border-color:#35d07f">
+        <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#35d07f;flex:none;width:52px">3</span>
+        <div style="flex:1;min-width:200px">
+          <h3 style="margin:0 0 6px;font:800 20px/1.2 Archivo,sans-serif">The panel</h3>
+          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">Local leaders on the questions that don't have a tidy answer — money, burnout, staying or going.</p>
+        </div>
+        <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">45 MIN</span>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px;border:3px solid #1d2547;background:#0d1226;padding:22px 24px" style-hover="border-color:#ff4d4d">
+        <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#ff4d4d;flex:none;width:52px">4</span>
+        <div style="flex:1;min-width:200px">
+          <h3 style="margin:0 0 6px;font:800 20px/1.2 Archivo,sans-serif">Open Q&amp;A</h3>
+          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">Floor's yours. Ask it live or drop it in anonymously — the awkward questions are the useful ones.</p>
+        </div>
+        <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">30 MIN</span>
+      </div>
+
+      <div style="border:4px solid #ffc61a;background:linear-gradient(#1a1226,#0d1226);padding:30px 26px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;right:0;background:#ffc61a;color:#080b18;font-family:'Press Start 2P',monospace;font-size:8px;padding:8px 12px">FINAL STAGE</div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:20px">
+          <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#ffc61a;flex:none;width:52px">★</span>
+          <div style="flex:1;min-width:220px">
+            <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ff4d4d;margin-bottom:12px">BOSS BATTLE</div>
+            <h3 style="margin:0 0 8px;font:900 clamp(26px,4vw,36px)/1.05 Archivo,sans-serif;letter-spacing:-.02em">Meet the Boss</h3>
+            <p style="margin:0;max-width:520px;font:500 16px/1.55 Archivo,sans-serif;color:rgba(238,241,255,.7)">Every table gets a boss — a founder, a CEO, a department head — and twenty minutes to ask them anything. Then they rotate. No pitch, no queue, no gatekeeper.</p>
+          </div>
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">45 MIN</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="crew" style="max-width:1160px;margin:0 auto;padding:88px 24px 24px;scroll-margin-top:70px">
     <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
-      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-3</span>
+      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-4</span>
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Team TYC</h2>
     </div>
     <p style="margin:0 0 46px;max-width:600px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">
-      Six volunteers behind the scenes. Together we level up. <span style="color:#ff4d4d">♥</span>
+      Six volunteers behind the scenes. Select a player to read their card. Together we level up. <span style="color:#ff4d4d">♥</span>
     </p>
 
     <div style="position:relative;border:4px solid #1d2547;background:linear-gradient(#0c1330 0%,#122048 62%,#153a2a 62%,#0f2a1e 100%);padding:44px 20px 0;overflow:hidden">
@@ -190,36 +272,19 @@
         <span style="width:74px;height:16px;background:#2c4a86;box-shadow:18px -12px 0 #2c4a86,-16px -8px 0 #2c4a86"></span>
       </div>
       <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:18px;align-items:end">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:0s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">MAK</div>
-          <image-slot id="crew-mak" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="MAK sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Events</div>
+        <sc-for list="{{ crew }}" as="member" hint-placeholder-count="6">
+        <div onClick="{{ member.open }}" onKeyDown="{{ member.keyOpen }}" role="button" tabindex="0" aria-label="{{ member.aria }}" style="display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;animation:{{ idleAnim }};animation-delay:{{ member.delay }}" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
+          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">{{ member.name }}</div>
+          <div style="position:relative;width:100%;aspect-ratio:3/4;border:3px solid #0b1024;overflow:hidden">
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(#1b254e,#101838)">
+              <div style="width:52px;height:52px;display:grid;place-items:center;background:{{ member.color }};border:4px solid rgba(0,0,0,.4);font-family:'Press Start 2P',monospace;font-size:20px;color:#0b1024">{{ member.initial }}</div>
+              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.4)">SPRITE TBC</div>
+            </div>
+            <div style="position:absolute;inset:0;background:rgba(11,16,36,.82);display:grid;place-items:center;opacity:0;transition:opacity .16s ease;font-family:'Press Start 2P',monospace;font-size:9px;color:{{ member.color }}" style-hover="opacity:1">VIEW ▸</div>
+          </div>
+          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">{{ member.role }}</div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:.2s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">TAHNEE</div>
-          <image-slot id="crew-tahnee" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="TAHNEE sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Partnerships</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:.4s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">YOSSI</div>
-          <image-slot id="crew-yossi" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="YOSSI sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Program</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:.6s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">LAILAH</div>
-          <image-slot id="crew-lailah" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="LAILAH sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Marketing</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:.8s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">LEIHAN</div>
-          <image-slot id="crew-leihan" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="LEIHAN sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Community</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;animation:{{ idleAnim }};animation-delay:1s" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
-          <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">ASH</div>
-          <image-slot id="crew-ash" style="width:100%;aspect-ratio:3/4" shape="rect" placeholder="ASH sprite"></image-slot>
-          <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">Logistics</div>
-        </div>
+        </sc-for>
       </div>
       <div style="height:26px;background:repeating-linear-gradient(90deg,#3a2415 0 22px,#442c19 22px 44px);border-top:5px solid #2c7a3f"></div>
     </div>
@@ -228,7 +293,7 @@
   <sc-if value="{{ showSponsors }}" hint-placeholder-val="{{ true }}">
   <section id="sponsors" style="max-width:1160px;margin:0 auto;padding:88px 24px 24px;scroll-margin-top:70px">
     <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
-      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-4</span>
+      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-5</span>
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Power up with us</h2>
     </div>
     <p style="margin:0 0 42px;max-width:640px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66);text-wrap:pretty">
@@ -244,7 +309,7 @@
         <div style="font:700 14px/1 Archivo,sans-serif;color:rgba(238,241,255,.45);margin-bottom:18px">From $750</div>
         <div style="display:flex;flex-direction:column;gap:9px;font:500 14px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.66)">
           <div>Logo on site + event screens</div>
-          <div>Two tickets on the night</div>
+          <div>Two tickets on the day</div>
           <div>Social announcement post</div>
         </div>
       </div>
@@ -257,8 +322,9 @@
         <h3 style="margin:0 0 6px;font:900 24px/1.1 Archivo,sans-serif">Level partner</h3>
         <div style="font:700 14px/1 Archivo,sans-serif;color:rgba(238,241,255,.45);margin-bottom:18px">From $2,500</div>
         <div style="display:flex;flex-direction:column;gap:9px;font:500 14px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.8)">
-          <div>Name a session — "Negotiation, presented by you"</div>
+          <div>Name a session — "The panel, presented by you"</div>
           <div>Stage mention + 60-second welcome</div>
+          <div>A seat at the Meet the Boss tables</div>
           <div>Six tickets and a reserved table</div>
           <div>Logo on all event collateral</div>
         </div>
@@ -286,7 +352,7 @@
 
   <section style="max-width:1160px;margin:0 auto;padding:88px 24px 24px">
     <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px">
-      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-5</span>
+      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-6</span>
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Questions</h2>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;max-width:860px">
@@ -301,6 +367,22 @@
       <details style="border:3px solid #1d2547;background:#0d1226">
         <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
           <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-2</span>
+          <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">How long is it? Do I need the whole day off?</span>
+          <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
+        </summary>
+        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">It's a half day — roughly four hours door to door, including the breaks. Exact start time is confirmed with the venue, so you'll know well before you have to ask your manager.</div>
+      </details>
+      <details style="border:3px solid #1d2547;background:#0d1226">
+        <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-3</span>
+          <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">What actually happens at Meet the Boss?</span>
+          <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
+        </summary>
+        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">We seat a local leader at each table for twenty minutes, then rotate them. You get a real conversation in a group of eight or so, not thirty seconds in a scrum by the bar. Bring one question you'd never get to ask over email.</div>
+      </details>
+      <details style="border:3px solid #1d2547;background:#0d1226">
+        <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-4</span>
           <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">Is there an age limit?</span>
           <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
         </summary>
@@ -308,7 +390,7 @@
       </details>
       <details style="border:3px solid #1d2547;background:#0d1226">
         <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
-          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-3</span>
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-5</span>
           <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">What will tickets cost?</span>
           <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
         </summary>
@@ -316,11 +398,11 @@
       </details>
       <details style="border:3px solid #1d2547;background:#0d1226">
         <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
-          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-4</span>
+          <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#ffc61a;flex:none">1-6</span>
           <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">I hate networking. Should I still come?</span>
           <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
         </summary>
-        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">Especially then. The night is structured so you're never standing in the middle of a room holding a drink wondering who to talk to.</div>
+        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">Especially then. Everything is seated and structured — talks, panel, Q&amp;A, then Meet the Boss at your table. You're never standing in the middle of a room holding a drink wondering who to talk to.</div>
       </details>
     </div>
   </section>
@@ -334,7 +416,7 @@
       </div>
       <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a;margin-bottom:20px">CONTINUE? &nbsp;10&nbsp;9&nbsp;8...</div>
       <h2 style="margin:0 0 16px;font:900 clamp(32px,6vw,64px)/1 Archivo,sans-serif;letter-spacing:-.04em;text-transform:uppercase;max-width:16ch">Get on the list</h2>
-      <p style="margin:0 0 30px;max-width:520px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.68)">Tickets, speakers and venue drop to the list first. One email a month, tops.</p>
+      <p style="margin:0 0 30px;max-width:520px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.68)">Tickets, speakers, the panel line-up, your Meet the Boss roster and the venue all drop to the list first. One email a month, tops.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;max-width:620px">
         <input type="email" placeholder="you@work.com.au" style="flex:1;min-width:240px;background:#080b18;border:3px solid #2a3462;color:#eef1ff;font:600 16px/1 Archivo,sans-serif;padding:19px 18px;outline:none" style-focus="border-color:#ffc61a">
         <button type="button" onClick="{{ join }}" style="font-family:'Press Start 2P',monospace;font-size:11px;color:#080b18;background:#35d07f;border:4px solid #080b18;padding:19px 22px;box-shadow:0 6px 0 #1c7a4b;cursor:pointer;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(6px);box-shadow:0 0 0 #1c7a4b">JOIN</button>
@@ -353,19 +435,115 @@
       </div>
     </div>
   </footer>
+
+  <sc-if value="{{ activeMember }}">
+  <div onClick="{{ closeMember }}" style="position:fixed;inset:0;z-index:200;background:rgba(4,6,14,.84);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
+    <div onClick="{{ stopClick }}" role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:660px;border:4px solid {{ activeMember.color }};background:#0d1226;box-shadow:0 16px 0 rgba(0,0,0,.4)">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-bottom:3px solid #1d2547;background:#0b1024">
+        <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:{{ activeMember.color }}">PLAYER CARD</span>
+        <button type="button" onClick="{{ closeMember }}" aria-label="Close" style="font-family:'Press Start 2P',monospace;font-size:11px;color:#eef1ff;background:transparent;border:3px solid #2a3462;padding:8px 11px;cursor:pointer;line-height:1" style-hover="border-color:#ff4d4d;color:#ff4d4d">✕</button>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:26px;padding:28px">
+        <div style="flex:none;width:150px;max-width:100%">
+          <div style="position:relative;width:100%;aspect-ratio:3/4;border:4px solid #0b1024;background:linear-gradient(#1b254e,#101838);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+            <div style="width:66px;height:66px;display:grid;place-items:center;background:{{ activeMember.color }};border:5px solid rgba(0,0,0,.4);font-family:'Press Start 2P',monospace;font-size:26px;color:#0b1024">{{ activeMember.initial }}</div>
+            <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.4)">SPRITE TBC</div>
+          </div>
+          <div style="margin-top:12px;border:3px solid #1d2547;background:#0b1024;padding:10px;text-align:center;font-family:'Press Start 2P',monospace;font-size:8px;color:#6f84c4;line-height:1.9">LV {{ activeMember.level }}<br>TYC CREW</div>
+        </div>
+
+        <div style="flex:1;min-width:240px">
+          <h3 style="margin:0 0 6px;font:900 clamp(28px,5vw,40px)/1 Archivo,sans-serif;letter-spacing:-.03em;text-transform:uppercase">{{ activeMember.name }}</h3>
+          <div style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:9px;color:#080b18;background:{{ activeMember.color }};padding:7px 10px;margin-bottom:18px">{{ activeMember.role }}</div>
+          <p style="margin:0 0 16px;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.7);text-wrap:pretty">{{ activeMember.bio }}</p>
+          <p style="margin:0 0 20px;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.5);text-wrap:pretty">{{ activeMember.quote }}</p>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ activeMember.stats }}" as="stat" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-family:'Press Start 2P',monospace;font-size:8px;color:#6f84c4;flex:none;width:78px">{{ stat.label }}</span>
+              <span style="flex:1;height:12px;background:#0b1024;border:2px solid #1d2547;display:block;position:relative">
+                <span style="position:absolute;top:0;left:0;bottom:0;width:{{ stat.pct }};background:{{ activeMember.color }}"></span>
+              </span>
+            </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
 </div>
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;showSponsors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;idleBounce&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+const CREW = [
+  {
+    name: "MAK", role: "Events", color: "#ffc61a", level: 12,
+    bio: "Placeholder bio — Mak runs the room on the day: venue, run sheet, and the bit where four hundred moving parts have to land on time. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "LOGISTICS", pct: "92%" }, { label: "CALM", pct: "78%" }, { label: "SPREADSHEETS", pct: "88%" }],
+  },
+  {
+    name: "TAHNEE", role: "Partnerships", color: "#35d07f", level: 11,
+    bio: "Placeholder bio — Tahnee looks after sponsors and partners, and makes the case for backing young talent in Toowoomba. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "PITCHING", pct: "94%" }, { label: "FOLLOW-UP", pct: "85%" }, { label: "COFFEE", pct: "70%" }],
+  },
+  {
+    name: "YOSSI", role: "Program", color: "#3aa0ff", level: 13,
+    bio: "Placeholder bio — Yossi shapes the program: who speaks, what the panel argues about, and how Meet the Boss actually runs. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "CURATION", pct: "90%" }, { label: "QUESTIONS", pct: "96%" }, { label: "TIMEKEEPING", pct: "64%" }],
+  },
+  {
+    name: "LAILAH", role: "Marketing", color: "#ff4d4d", level: 10,
+    bio: "Placeholder bio — Lailah handles the socials, the brand and the reason you found this page at all. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "REACH", pct: "89%" }, { label: "DESIGN EYE", pct: "93%" }, { label: "MEMES", pct: "99%" }],
+  },
+  {
+    name: "LEIHAN", role: "Community", color: "#a78bfa", level: 11,
+    bio: "Placeholder bio — Leihan keeps the community warm between events and makes sure first-timers get spoken to. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "WELCOME", pct: "97%" }, { label: "NAMES", pct: "86%" }, { label: "ENERGY", pct: "82%" }],
+  },
+  {
+    name: "ASH", role: "Logistics", color: "#f97316", level: 12,
+    bio: "Placeholder bio — Ash handles the unglamorous half: tech, ticketing, signage and the things nobody notices unless they break. Swap this copy for the real thing before launch.",
+    quote: "Placeholder line — a sentence about why they volunteered.",
+    stats: [{ label: "SYSTEMS", pct: "91%" }, { label: "CONTINGENCY", pct: "87%" }, { label: "SLEEP", pct: "31%" }],
+  },
+];
+
 class Component extends DCLogic {
-  state = { joined: false };
+  state = { joined: false, activeIndex: null };
   renderVals() {
     const idle = this.props.idleBounce ?? true;
+    const active = this.state.activeIndex == null ? null : CREW[this.state.activeIndex];
     return {
       showSponsors: this.props.showSponsors ?? true,
       idleAnim: idle ? "bob 2.6s ease-in-out infinite" : "none",
       joinMsg: this.state.joined ? "✓ YOU'RE IN. WATCH YOUR INBOX." : "NO SPAM. UNSUBSCRIBE ANY TIME.",
       join: () => this.setState({ joined: true }),
+      crew: CREW.map((m, i) => ({
+        ...m,
+        initial: m.name.charAt(0),
+        delay: (i * 0.2) + "s",
+        aria: "Open the player card for " + m.name + ", " + m.role,
+        open: () => this.setState({ activeIndex: i }),
+        keyOpen: (e) => {
+          if (e && (e.key === "Enter" || e.key === " ")) {
+            e.preventDefault();
+            this.setState({ activeIndex: i });
+          }
+        },
+      })),
+      activeMember: active && { ...active, initial: active.name.charAt(0) },
+      closeMember: () => this.setState({ activeIndex: null }),
+      stopClick: (e) => e && e.stopPropagation(),
     };
   }
 }
