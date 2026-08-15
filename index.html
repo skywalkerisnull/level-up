@@ -431,6 +431,7 @@
   </section>
   </sc-if>
 
+  <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
   <footer style="border-top:3px solid #1d2547;background:#0b1024">
     <div style="max-width:1160px;margin:0 auto;padding:34px 24px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center">
       <div style="font:600 13px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.45)">Level Up · An event by the Toowoomba Young Chamber<br>6 November 2026 · Toowoomba, QLD</div>
@@ -441,9 +442,10 @@
       </div>
     </div>
   </footer>
+  </sc-if>
 
   <sc-if value="{{ activeMember }}">
-  <div onClick="{{ closeMember }}" style="position:fixed;inset:0;z-index:200;background:rgba(4,6,14,.84);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
+  <div class="lu-modal" onClick="{{ closeMember }}" style="position:fixed;inset:0;z-index:200;background:rgba(4,6,14,.84);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto">
     <div onClick="{{ stopClick }}" role="dialog" aria-modal="true" style="position:relative;width:100%;max-width:660px;border:4px solid {{ activeMember.color }};background:#0d1226;box-shadow:0 16px 0 rgba(0,0,0,.4)">
 
       <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-bottom:3px solid #1d2547;background:#0b1024">
@@ -537,6 +539,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 // index.html directly still gives the complete standalone page.
 //   ?nav=0       hide this page's sticky header (WordPress supplies the nav)
 //   ?waitlist=0  hide the signup section (WordPress captures the email instead)
+//   ?footer=0    hide the footer — it sits at the bottom of this page, which is
+//                the middle of the host page once WordPress adds its own content
 const PARAMS = new URLSearchParams(location.search);
 const flag = (name) => PARAMS.get(name) !== "0";
 
@@ -586,6 +590,7 @@ class Component extends DCLogic {
       showSponsors: this.props.showSponsors ?? true,
       showNav: flag("nav"),
       showWaitlist: flag("waitlist"),
+      showFooter: flag("footer"),
       idleAnim: idle ? "bob 2.6s ease-in-out infinite" : "none",
 
       email: this.state.email,
@@ -694,6 +699,44 @@ class Component extends DCLogic {
     if (document.getElementById(id)) return;
     e.preventDefault();
     send({ type: "navigate", target: id });
+  });
+
+  /* --- keeping the crew modal on screen --------------------------------
+   *
+   * The modal overlay is position:fixed, which normally pins it to the
+   * viewport. That breaks here: the parent resizes this frame to its full
+   * content height, so the frame's viewport IS the whole page. "Fixed" then
+   * centres the modal in the middle of ~5000px of document, usually far from
+   * whatever the reader was actually looking at when they clicked.
+   *
+   * The parent knows which slice of the frame is on screen and sends it, so
+   * the overlay is switched to absolute positioning over exactly that slice.
+   */
+  var visible = null;
+
+  window.addEventListener("message", function (e) {
+    // Only the embedder can be window.parent, and this carries nothing but
+    // geometry, so the sender check is enough without knowing its origin.
+    if (e.source !== window.parent) return;
+    var d = e.data;
+    if (!d || d.source !== "level-up-parent" || d.type !== "viewport") return;
+    visible = d;
+    placeModal();
+  });
+
+  function placeModal() {
+    var modal = document.querySelector(".lu-modal");
+    if (!modal || !visible) return;
+    modal.style.position = "absolute";
+    modal.style.top = visible.offset + "px";
+    modal.style.bottom = "auto";
+    modal.style.height = visible.height + "px";
+  }
+
+  // The modal is added and removed by the framework, so catch it appearing.
+  new MutationObserver(placeModal).observe(document.body, {
+    childList: true,
+    subtree: true,
   });
 })();
 </script>

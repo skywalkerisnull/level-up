@@ -84,6 +84,14 @@ monthly email.
 `worker/` in this repo is from an earlier approach that pushed signups straight
 to Mailjet from a static page. It is not used by this plugin.
 
+### The embedded page's footer
+
+A footer is a bottom-of-page marker, so it only survives when the frame really
+is the end of the page. It is hidden when the theme supplies its own footer
+("inside the site"), and when the plugin renders the signup form below the
+frame — otherwise the form would sit underneath a footer. That leaves one case
+where it shows: a standalone page whose signups are handled elsewhere.
+
 ## How the iframe gets its height
 
 An iframe has a fixed height and cannot size itself to its content, which is why
@@ -93,6 +101,12 @@ when the content changes, so opening an FAQ item grows the frame.
 
 The parent only accepts messages whose origin matches the iframe's exactly and
 which came from that frame, so another site cannot resize it or drive scrolling.
+
+The parent also tells the frame which slice of itself is currently on screen.
+That is needed because a frame sized to its full content has no viewport of its
+own: `position: fixed` inside it resolves against the whole ~5000px document,
+which put the crew pop-up in the middle of the page rather than in front of the
+reader. It is positioned over the reported slice instead, and follows scrolling.
 
 If JavaScript is blocked the frame stays at the starting height and scrolls
 internally — degraded but usable, and the signup form still submits.

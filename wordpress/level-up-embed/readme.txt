@@ -3,7 +3,7 @@ Contributors: toowoombayoungchamber
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 License: GPLv2 or later
 
 Embeds the Level Up landing page as an auto-resizing iframe and collects
@@ -60,6 +60,11 @@ No. They are the mailing list and exist nowhere else, so uninstalling removes
 only the settings. Delete the entries by hand if you want them gone.
 
 == Changelog ==
+
+= 1.2.2 =
+* Hide the embedded page's footer when something is rendered below the frame.
+* Keep the crew pop-up on screen: an auto-height frame has no viewport of its
+  own, so position:fixed put it in the middle of the whole page.
 
 = 1.2.1 =
 * Scoped the form styles so block themes stop overriding the button and input.

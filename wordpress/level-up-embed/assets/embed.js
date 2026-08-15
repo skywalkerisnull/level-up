@@ -36,6 +36,7 @@
 
 			if (d.type === 'height' && typeof d.height === 'number' && d.height > 0) {
 				frame.style.height = Math.ceil(d.height) + 'px';
+				sendViewport();
 			}
 
 			// A link in the embedded page pointed at a section that now lives out
@@ -45,6 +46,28 @@
 				if (input) setTimeout(function () { input.focus(); }, 400);
 			}
 		});
+
+		/* --- telling the frame what is on screen ------------------------ */
+
+		/* The frame is sized to its full content, so from inside it there is no
+		 * such thing as "the visible area" — position:fixed would pin the crew
+		 * modal to the middle of the whole page instead of the reader's screen.
+		 * Send the slice of the frame currently in view so it can place the
+		 * modal over it. */
+		function sendViewport() {
+			if (!frame || !frame.contentWindow || !cfg.origin) return;
+			var r = frame.getBoundingClientRect();
+			var offset = Math.max(0, -r.top);
+			var height = Math.max(0, Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0));
+			frame.contentWindow.postMessage(
+				{ source: 'level-up-parent', type: 'viewport', offset: Math.round(offset), height: Math.round(height) },
+				cfg.origin // never '*': this goes to a specific known frame
+			);
+		}
+
+		window.addEventListener('scroll', sendViewport, { passive: true });
+		window.addEventListener('resize', sendViewport);
+		if (frame) frame.addEventListener('load', sendViewport);
 
 		/* --- signup form ------------------------------------------------ */
 		if (!form) return;

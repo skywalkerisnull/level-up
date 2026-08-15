@@ -116,9 +116,26 @@ function levelup_iframe_src() {
 		array(
 			'nav'      => ( 'standalone' === $options['variant'] ) ? '1' : '0',
 			'waitlist' => ( 'embedded' === $options['form_mode'] ) ? '1' : '0',
+			'footer'   => levelup_shows_embedded_footer() ? '1' : '0',
 		),
 		$src
 	);
+}
+
+/**
+ * Whether the embedded page should keep its own footer.
+ *
+ * Only when it is genuinely the end of the page. A footer is a full-width
+ * bottom-of-page marker, so anything rendered after the frame makes it read as
+ * a page that already ended and then kept going. It is therefore hidden when
+ * the theme supplies a footer of its own ("site"), and when the plugin renders
+ * the signup form below the frame — which would otherwise sit underneath a
+ * footer. That leaves one case where it survives: a standalone page whose
+ * signups are handled elsewhere, where it is the only footer there is.
+ */
+function levelup_shows_embedded_footer() {
+	$options = levelup_options();
+	return 'standalone' === $options['variant'] && 'wordpress' !== $options['form_mode'];
 }
 
 /**
