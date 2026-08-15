@@ -48,6 +48,7 @@
     radial-gradient(900px 460px at 12% 8%, rgba(255,198,26,.10), transparent 68%),
     #080b18;overflow-x:hidden">
 
+  <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
   <div style="position:sticky;top:0;z-index:50;background:rgba(8,11,24,.82);backdrop-filter:blur(10px);border-bottom:3px solid #1d2547">
     <div class="nav-row" style="max-width:1160px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;justify-content:space-between">
       <div style="display:flex;align-items:center;gap:14px;min-width:0">
@@ -67,6 +68,7 @@
       </div>
     </div>
   </div>
+  </sc-if>
 
   <section style="position:relative;max-width:1160px;margin:0 auto;padding:76px 24px 40px">
     <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(58,160,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(58,160,255,.055) 1px,transparent 1px);background-size:28px 28px;mask-image:radial-gradient(70% 60% at 50% 30%,#000,transparent)"></div>
@@ -407,6 +409,7 @@
     </div>
   </section>
 
+  <sc-if value="{{ showWaitlist }}" hint-placeholder-val="{{ true }}">
   <section id="waitlist" style="max-width:1160px;margin:0 auto;padding:88px 24px 96px;scroll-margin-top:70px">
     <div style="border:4px solid #ffc61a;background:linear-gradient(#141024,#0b0f20);padding:clamp(30px,5vw,60px);position:relative;overflow:hidden">
       <div style="position:absolute;top:22px;right:24px;display:flex;gap:8px">
@@ -418,12 +421,15 @@
       <h2 style="margin:0 0 16px;font:900 clamp(32px,6vw,64px)/1 Archivo,sans-serif;letter-spacing:-.04em;text-transform:uppercase;max-width:16ch">Get on the list</h2>
       <p style="margin:0 0 30px;max-width:520px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.68)">Tickets, speakers, the panel line-up, your Meet the Boss roster and the venue all drop to the list first. One email a month, tops.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;max-width:620px">
-        <input type="email" placeholder="you@work.com.au" style="flex:1;min-width:240px;background:#080b18;border:3px solid #2a3462;color:#eef1ff;font:600 16px/1 Archivo,sans-serif;padding:19px 18px;outline:none" style-focus="border-color:#ffc61a">
-        <button type="button" onClick="{{ join }}" style="font-family:'Press Start 2P',monospace;font-size:11px;color:#080b18;background:#35d07f;border:4px solid #080b18;padding:19px 22px;box-shadow:0 6px 0 #1c7a4b;cursor:pointer;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(6px);box-shadow:0 0 0 #1c7a4b">JOIN</button>
+        <label for="waitlist-email" style="position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap">Email address</label>
+        <input id="waitlist-email" type="email" name="email" autocomplete="email" placeholder="you@work.com.au" value="{{ email }}" onChange="{{ onEmail }}" onKeyDown="{{ onEmailKey }}" disabled="{{ sending }}" style="flex:1;min-width:240px;background:#080b18;border:3px solid {{ fieldBorder }};color:#eef1ff;font:600 16px/1 Archivo,sans-serif;padding:19px 18px;outline:none" style-focus="border-color:#ffc61a">
+        <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" value="{{ trap }}" onChange="{{ onTrap }}" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0">
+        <button type="button" onClick="{{ join }}" disabled="{{ sending }}" style="font-family:'Press Start 2P',monospace;font-size:11px;color:#080b18;background:{{ joinBg }};border:4px solid #080b18;padding:19px 22px;box-shadow:0 6px 0 #1c7a4b;cursor:{{ joinCursor }};transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(6px);box-shadow:0 0 0 #1c7a4b">{{ joinLabel }}</button>
       </div>
-      <div style="margin-top:18px;font-family:'Press Start 2P',monospace;font-size:9px;color:#35d07f;line-height:1.8">{{ joinMsg }}</div>
+      <div aria-live="polite" style="margin-top:18px;font-family:'Press Start 2P',monospace;font-size:9px;color:{{ joinColor }};line-height:1.8">{{ joinMsg }}</div>
     </div>
   </section>
+  </sc-if>
 
   <footer style="border-top:3px solid #1d2547;background:#0b1024">
     <div style="max-width:1160px;margin:0 auto;padding:34px 24px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center">
@@ -518,16 +524,86 @@ const CREW = [
   },
 ];
 
+// Where the JOIN button sends addresses, used only when this page is opened on its
+// own. When embedded in WordPress the signup form lives in the WordPress page
+// instead (see wordpress/level-up-embed/), and the plugin loads this page with
+// ?waitlist=0 so the section below is hidden and this stays unused.
+// Never put a Mailjet API key here; this file ships to every visitor.
+const SUBSCRIBE_ENDPOINT = "";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Embed switches, read from the iframe's src. Both default to on so opening
+// index.html directly still gives the complete standalone page.
+//   ?nav=0       hide this page's sticky header (WordPress supplies the nav)
+//   ?waitlist=0  hide the signup section (WordPress captures the email instead)
+const PARAMS = new URLSearchParams(location.search);
+const flag = (name) => PARAMS.get(name) !== "0";
+
 class Component extends DCLogic {
-  state = { joined: false, activeIndex: null };
+  state = { status: "idle", email: "", trap: "", note: "", activeIndex: null };
+
+  async submit() {
+    if (this.state.status === "sending" || this.state.status === "ok") return;
+
+    const email = (this.state.email || "").trim();
+    if (!EMAIL_RE.test(email)) {
+      this.setState({ status: "error", note: "THAT EMAIL DOESN'T LOOK RIGHT." });
+      return;
+    }
+    // Honeypot: humans never see this field, so anything in it is a bot. Show the
+    // success state so the bot doesn't learn it was caught, but send nothing.
+    if (this.state.trap) {
+      this.setState({ status: "ok" });
+      return;
+    }
+    if (!SUBSCRIBE_ENDPOINT) {
+      this.setState({ status: "error", note: "SIGNUP ISN'T CONNECTED YET — EMAIL HELLO@TYC.ORG.AU" });
+      return;
+    }
+
+    this.setState({ status: "sending", note: "" });
+    try {
+      const res = await fetch(SUBSCRIBE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      this.setState({ status: "ok", note: "" });
+    } catch (err) {
+      this.setState({ status: "error", note: "COULDN'T REACH THE LIST. TRY AGAIN." });
+    }
+  }
+
   renderVals() {
     const idle = this.props.idleBounce ?? true;
     const active = this.state.activeIndex == null ? null : CREW[this.state.activeIndex];
+    const status = this.state.status;
+    const sending = status === "sending";
+    const done = status === "ok";
     return {
       showSponsors: this.props.showSponsors ?? true,
+      showNav: flag("nav"),
+      showWaitlist: flag("waitlist"),
       idleAnim: idle ? "bob 2.6s ease-in-out infinite" : "none",
-      joinMsg: this.state.joined ? "✓ YOU'RE IN. WATCH YOUR INBOX." : "NO SPAM. UNSUBSCRIBE ANY TIME.",
-      join: () => this.setState({ joined: true }),
+
+      email: this.state.email,
+      trap: this.state.trap,
+      sending,
+      joinLabel: sending ? "..." : done ? "DONE" : "JOIN",
+      joinBg: done ? "#1c7a4b" : "#35d07f",
+      joinCursor: sending || done ? "default" : "pointer",
+      fieldBorder: status === "error" ? "#ff4d4d" : "#2a3462",
+      joinColor: status === "error" ? "#ff4d4d" : "#35d07f",
+      joinMsg:
+        done ? "✓ YOU'RE IN. WATCH YOUR INBOX."
+        : sending ? "SENDING..."
+        : this.state.note || "NO SPAM. UNSUBSCRIBE ANY TIME.",
+      onEmail: (e) => this.setState({ email: e.target.value, status: "idle", note: "" }),
+      onTrap: (e) => this.setState({ trap: e.target.value }),
+      onEmailKey: (e) => { if (e.key === "Enter") { e.preventDefault(); this.submit(); } },
+      join: () => this.submit(),
       crew: CREW.map((m, i) => ({
         ...m,
         initial: m.name.charAt(0),
@@ -548,6 +624,78 @@ class Component extends DCLogic {
   }
 }
 
+</script>
+
+<script>
+/* Iframe bridge. Only does anything when this page is embedded.
+ *
+ * An iframe has a fixed height and knows nothing about its parent, so without
+ * this you get a short frame with its own inner scrollbar. The page measures
+ * itself and tells the parent how tall to make the frame. It also forwards
+ * clicks on links that point at a section which is no longer in the iframe
+ * (#waitlist, once WordPress owns the signup form) so the parent can scroll
+ * to its own copy instead of silently doing nothing.
+ *
+ * Messages sent to the parent:
+ *   { source: "level-up", type: "height",   height: <px> }
+ *   { source: "level-up", type: "navigate", target: "waitlist" }
+ */
+(function () {
+  if (window.parent === window) return; // opened directly, nothing to talk to
+
+  var TAG = "level-up";
+  var last = 0;
+
+  function send(msg) {
+    msg.source = TAG;
+    // "*" is safe here: these messages carry no user data, only a pixel height
+    // and a section name. The parent is what must verify the origin.
+    window.parent.postMessage(msg, "*");
+  }
+
+  function reportHeight() {
+    var body = document.body;
+    var h = Math.max(
+      body ? body.scrollHeight : 0,
+      body ? body.offsetHeight : 0,
+      document.documentElement.scrollHeight
+    );
+    if (!h || Math.abs(h - last) < 2) return; // ignore sub-pixel jitter
+    last = h;
+    send({ type: "height", height: h });
+  }
+
+  window.addEventListener("load", reportHeight);
+  window.addEventListener("resize", reportHeight);
+
+  // Watch the BODY, not documentElement: the html element's box is the iframe
+  // viewport, so it never grows with the content and the observer would fire
+  // once at the wrong size and then stay silent. Body grows, so this also
+  // catches the FAQ <details> opening and closing.
+  if (window.ResizeObserver) {
+    new ResizeObserver(reportHeight).observe(document.body);
+  }
+
+  // Backstop for the first few seconds: the page is framework-rendered and its
+  // webfonts land after load, so the first measurement is usually too short.
+  var ticks = 0;
+  var timer = setInterval(function () {
+    reportHeight();
+    if (++ticks > 40) clearInterval(timer);
+  }, 500);
+  setTimeout(reportHeight, 0);
+
+  document.addEventListener("click", function (e) {
+    var a = e.target && e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute("href").slice(1);
+    if (!id) return;
+    // If the section still exists in here, let the browser handle it normally.
+    if (document.getElementById(id)) return;
+    e.preventDefault();
+    send({ type: "navigate", target: id });
+  });
+})();
 </script>
 </body>
 </html>
