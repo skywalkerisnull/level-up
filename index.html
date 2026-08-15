@@ -487,7 +487,7 @@
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;showSponsors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;idleBounce&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
-const CREW = [
+const CREW_MEMBERS = [
   {
     name: "MAK", role: "Events", color: "#ffc61a", level: 12,
     bio: "Placeholder bio — Mak runs the room on the day: venue, run sheet, and the bit where four hundred moving parts have to land on time. Swap this copy for the real thing before launch.",
@@ -525,6 +525,32 @@ const CREW = [
     stats: [{ label: "SYSTEMS", pct: "91%" }, { label: "CONTINGENCY", pct: "87%" }, { label: "SLEEP", pct: "31%" }],
   },
 ];
+
+/**
+ * Fisher-Yates. Every ordering is equally likely, which the common
+ * `sort(() => Math.random() - 0.5)` trick is not — that one leans heavily
+ * towards leaving items near where they started, so the same couple of people
+ * would keep turning up first.
+ */
+function shuffle(list) {
+  const out = list.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+/**
+ * Shuffled once when the page loads, NOT inside renderVals(). That runs on
+ * every state change, so shuffling there would deal the crew a new order every
+ * time someone opened or closed a player card — the row would visibly reorder
+ * behind the modal, and the card would swap to a different person.
+ *
+ * Both the grid and the open card index into this same array, so they stay in
+ * agreement. For a fixed order again, drop the shuffle() call.
+ */
+const CREW = shuffle(CREW_MEMBERS);
 
 // Where the JOIN button sends addresses, used only when this page is opened on its
 // own. When embedded in WordPress the signup form lives in the WordPress page
