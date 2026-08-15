@@ -62,7 +62,7 @@
           <a href="#speakers" style="color:inherit">Speakers</a>
           <a href="#program" style="color:inherit">Run Sheet</a>
           <a href="#crew" style="color:inherit">Crew</a>
-          <a href="#sponsors" style="color:inherit">Sponsors</a>
+          <sc-if value="{{ showSponsors }}"><a href="#sponsors" style="color:inherit">Sponsors</a></sc-if>
         </div>
         <a href="#waitlist" class="nav-cta" style="font-family:'Press Start 2P',monospace;font-size:10px;color:#080b18;background:#ffc61a;padding:12px 16px;border:3px solid #080b18;box-shadow:0 4px 0 #b3881a;white-space:nowrap;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#fff;box-shadow:0 4px 0 #7d5f10" style-active="transform:translateY(4px);box-shadow:0 0 0 #7d5f10">GET&nbsp;UPDATES</a>
       </div>
@@ -75,7 +75,7 @@
     <div style="position:relative;display:flex;flex-direction:column;gap:30px;align-items:flex-start">
       <div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border:3px solid #1d2547;background:#0d1226;max-width:100%">
         <span style="width:11px;height:11px;background:#ff4d4d;animation:blink 1.6s steps(1,end) infinite;flex:none"></span>
-        <span style="font-family:'Press Start 2P',monospace;font-size:10px;line-height:1.9;color:#8fa6e6">NEW GAME · HALF DAY · 06 NOV 2026 · TOOWOOMBA</span>
+        <span style="font-family:'Press Start 2P',monospace;font-size:10px;line-height:1.9;color:#8fa6e6">NEW GAME · HALF DAY · DATE TBA · TOOWOOMBA</span>
       </div>
 
       <h1 style="margin:0;font:900 clamp(64px,13vw,168px)/0.86 Archivo,sans-serif;letter-spacing:-.045em;text-transform:uppercase;text-wrap:balance">
@@ -88,14 +88,14 @@
       </p>
 
       <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
-        <a href="#waitlist" style="font-family:'Press Start 2P',monospace;font-size:13px;line-height:1;color:#080b18;background:#35d07f;padding:20px 26px;border:4px solid #080b18;box-shadow:0 7px 0 #1c7a4b;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(7px);box-shadow:0 0 0 #1c7a4b">PRESS START ▸</a>
-        <a href="#sponsors" style="font:700 15px/1 Archivo,sans-serif;letter-spacing:.02em;color:#eef1ff;padding:20px 24px;border:3px solid #2a3462;background:#0d1226" style-hover="border-color:#ffc61a;color:#ffc61a">Sponsor the day</a>
+        <a href="#about" style="font-family:'Press Start 2P',monospace;font-size:13px;line-height:1;color:#080b18;background:#35d07f;padding:20px 26px;border:4px solid #080b18;box-shadow:0 7px 0 #1c7a4b;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#4ff09b" style-active="transform:translateY(7px);box-shadow:0 0 0 #1c7a4b">PRESS START ▸</a>
+        <a href="#waitlist" style="font-family:'Press Start 2P',monospace;font-size:13px;line-height:1;color:#080b18;background:#ffc61a;padding:20px 26px;border:4px solid #080b18;box-shadow:0 7px 0 #b3881a;transition:transform .06s linear,box-shadow .06s linear" style-hover="background:#fff" style-active="transform:translateY(7px);box-shadow:0 0 0 #b3881a">JOIN THE LIST ▸</a>
       </div>
 
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:#1d2547;border:3px solid #1d2547;width:100%;margin-top:14px">
         <div style="background:#0b1024;padding:18px 20px">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;margin-bottom:9px">DATE</div>
-          <div style="font:800 22px/1 Archivo,sans-serif">6 Nov 2026</div>
+          <div style="font:800 22px/1 Archivo,sans-serif;color:rgba(238,241,255,.55)">TBA</div>
         </div>
         <div style="background:#0b1024;padding:18px 20px">
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;margin-bottom:9px">RUN TIME</div>
@@ -119,8 +119,8 @@
 
   <div style="border-top:3px solid #1d2547;border-bottom:3px solid #1d2547;background:#0b1024;overflow:hidden;padding:14px 0">
     <div style="display:flex;width:max-content;animation:marq 26s linear infinite;font-family:'Press Start 2P',monospace;font-size:11px;color:#3f4f8c">
-      <span style="display:flex;gap:34px;padding-right:34px"><span>TOOWOOMBA YOUNG CHAMBER</span><span style="color:#ffc61a">★</span><span>LEVEL UP 2026</span><span style="color:#ff4d4d">♥</span><span>TOGETHER WE LEVEL UP</span><span style="color:#35d07f">◆</span><span>06.11.26</span><span style="color:#ffc61a">★</span></span>
-      <span style="display:flex;gap:34px;padding-right:34px"><span>TOOWOOMBA YOUNG CHAMBER</span><span style="color:#ffc61a">★</span><span>LEVEL UP 2026</span><span style="color:#ff4d4d">♥</span><span>TOGETHER WE LEVEL UP</span><span style="color:#35d07f">◆</span><span>06.11.26</span><span style="color:#ffc61a">★</span></span>
+      <span style="display:flex;gap:34px;padding-right:34px"><span>TOOWOOMBA YOUNG CHAMBER</span><span style="color:#ffc61a">★</span><span>LEVEL UP 2026</span><span style="color:#ff4d4d">♥</span><span>TOGETHER WE LEVEL UP</span><span style="color:#35d07f">◆</span><span>DATE TBA</span><span style="color:#ffc61a">★</span></span>
+      <span style="display:flex;gap:34px;padding-right:34px"><span>TOOWOOMBA YOUNG CHAMBER</span><span style="color:#ffc61a">★</span><span>LEVEL UP 2026</span><span style="color:#ff4d4d">♥</span><span>TOGETHER WE LEVEL UP</span><span style="color:#35d07f">◆</span><span>DATE TBA</span><span style="color:#ffc61a">★</span></span>
     </div>
   </div>
 
@@ -157,7 +157,7 @@
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Speakers &amp; panel</h2>
     </div>
     <p style="margin:0 0 42px;max-width:600px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">
-      Three announcements between now and November. Hover a block to see what's coming.
+      Three announcements between now and the day. Hover a block to see what's coming.
     </p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px">
       <div style="position:relative;border:3px solid #2a3462;background:#0d1226;aspect-ratio:4/5;overflow:hidden" style-hover="border-color:#ffc61a">
@@ -166,7 +166,7 @@
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE TALKS<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#ffc61a;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING AUG</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING SOON</div>
           <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The speakers</div>
           <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">A short run of talks. Fifteen minutes each, one idea each, no slide-deck marathons.</div>
         </div>
@@ -177,7 +177,7 @@
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE PANEL<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#35d07f;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING SEP</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING SOON</div>
           <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">The panel</div>
           <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">Four people who disagree, one moderator who won't let them off the hook.</div>
         </div>
@@ -188,7 +188,7 @@
           <div style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;text-align:center;line-height:1.9">THE BOSSES<br>LOCKED</div>
         </div>
         <div style="position:absolute;inset:0;background:#3aa0ff;color:#080b18;padding:26px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;opacity:0;transition:opacity .18s ease" style-hover="opacity:1">
-          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING OCT</div>
+          <div style="font-family:'Press Start 2P',monospace;font-size:9px">ANNOUNCING SOON</div>
           <div style="font:900 26px/1.05 Archivo,sans-serif;letter-spacing:-.02em">Meet the Boss</div>
           <div style="font:600 14px/1.45 Archivo,sans-serif;opacity:.75">The line-up of local leaders taking a table for the final session.</div>
         </div>
@@ -354,7 +354,7 @@
 
   <section style="max-width:1160px;margin:0 auto;padding:88px 24px 24px">
     <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:32px">
-      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-6</span>
+      <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">{{ faqLevel }}</span>
       <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Questions</h2>
     </div>
     <div style="display:flex;flex-direction:column;gap:12px;max-width:860px">
@@ -434,10 +434,10 @@
   <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
   <footer style="border-top:3px solid #1d2547;background:#0b1024">
     <div style="max-width:1160px;margin:0 auto;padding:34px 24px;display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:center">
-      <div style="font:600 13px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.45)">Level Up · An event by the Toowoomba Young Chamber<br>6 November 2026 · Toowoomba, QLD</div>
+      <div style="font:600 13px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.45)">Level Up · An event by the Toowoomba Young Chamber<br>Date to be announced · Toowoomba, QLD</div>
       <div style="display:flex;gap:20px;font:700 13px/1 Archivo,sans-serif">
         <a href="mailto:hello@tyc.org.au">Email</a>
-        <a href="#sponsors">Sponsor</a>
+        <sc-if value="{{ showSponsors }}"><a href="#sponsors">Sponsor</a></sc-if>
         <a href="#waitlist">Updates</a>
       </div>
     </div>
@@ -486,7 +486,7 @@
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showSponsors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;idleBounce&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;showSponsors&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;},&quot;idleBounce&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
 const CREW = [
   {
     name: "MAK", role: "Events", color: "#ffc61a", level: 12,
@@ -587,7 +587,13 @@ class Component extends DCLogic {
     const sending = status === "sending";
     const done = status === "ok";
     return {
-      showSponsors: this.props.showSponsors ?? true,
+      // Sponsorship is parked, not deleted: the whole "Power up with us"
+      // section, its nav link and its footer link are still in the markup.
+      // Flip this back to `?? true` to bring them all back.
+      showSponsors: this.props.showSponsors ?? false,
+      // Sections are numbered like arcade levels, so the FAQ closes the gap
+      // rather than jumping 1-4 to 1-6 while sponsorship is parked.
+      faqLevel: (this.props.showSponsors ?? false) ? "1-6" : "1-5",
       showNav: flag("nav"),
       showWaitlist: flag("waitlist"),
       showFooter: flag("footer"),
