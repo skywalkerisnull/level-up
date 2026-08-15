@@ -1,0 +1,161 @@
+/* Level Up embed + signup form.
+   The form sits directly under the iframe, so it has to match the page inside
+   it rather than the surrounding theme.
+
+   Everything is scoped under .lu-embed on purpose. Themes style form controls
+   with selectors like `button[type="submit"]` and `input[type="email"]`, which
+   have specificity 0-1-1 and beat a bare `.lu-btn` at 0-1-0 no matter which
+   stylesheet loads first. `.lu-embed .lu-btn` is 0-2-0 and wins. Do not
+   un-nest these rules. */
+
+.lu-embed { background: #080b18; }
+
+.lu-embed .lu-frame {
+	display: block;
+	width: 100%;
+	border: 0;
+	overflow: hidden;
+}
+
+.lu-embed .lu-signup {
+	background: #080b18;
+	padding: 0 24px 96px;
+	font-family: Archivo, system-ui, sans-serif;
+}
+.lu-embed .lu-signup * { box-sizing: border-box; }
+
+.lu-embed .lu-signup-inner {
+	max-width: 1160px;
+	margin: 0 auto;
+	border: 4px solid #ffc61a;
+	border-radius: 0;
+	background: linear-gradient(#141024, #0b0f20);
+	padding: clamp(30px, 5vw, 60px);
+}
+
+.lu-embed .lu-kicker {
+	font-family: 'Press Start 2P', monospace;
+	font-size: 10px;
+	color: #ffc61a;
+	margin-bottom: 20px;
+}
+
+.lu-embed .lu-title {
+	margin: 0 0 16px;
+	font: 900 clamp(32px, 6vw, 64px)/1 Archivo, sans-serif;
+	letter-spacing: -.04em;
+	text-transform: uppercase;
+	max-width: 16ch;
+	color: #eef1ff;
+}
+
+.lu-embed .lu-lede {
+	margin: 0 0 30px;
+	max-width: 520px;
+	font: 500 18px/1.6 Archivo, sans-serif;
+	color: rgba(238, 241, 255, .68);
+}
+
+.lu-embed .lu-form {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	max-width: 620px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: none;
+}
+
+/* border-radius is reset explicitly: themes round every control by default,
+   which fights the deliberately hard-edged arcade styling. */
+.lu-embed .lu-input {
+	flex: 1;
+	min-width: 240px;
+	background: #080b18;
+	border: 3px solid #2a3462;
+	border-radius: 0;
+	color: #eef1ff;
+	font: 600 16px/1 Archivo, sans-serif;
+	padding: 19px 18px;
+	outline: none;
+	box-shadow: none;
+	max-width: none;
+}
+.lu-embed .lu-input:focus {
+	border-color: #ffc61a;
+	background: #080b18;
+	color: #eef1ff;
+	outline: none;
+	box-shadow: none;
+}
+.lu-embed .lu-input::placeholder { color: rgba(238, 241, 255, .38); opacity: 1; }
+.lu-embed.is-error .lu-input { border-color: #ff4d4d; }
+
+.lu-embed .lu-btn {
+	display: inline-block;
+	width: auto;
+	font-family: 'Press Start 2P', monospace;
+	font-size: 11px;
+	font-weight: 400;
+	line-height: 1;
+	text-transform: none;
+	letter-spacing: normal;
+	color: #080b18;
+	background: #35d07f;
+	border: 4px solid #080b18;
+	border-radius: 0;
+	padding: 19px 22px;
+	box-shadow: 0 6px 0 #1c7a4b;
+	cursor: pointer;
+	transition: transform .06s linear, box-shadow .06s linear;
+}
+.lu-embed .lu-btn:hover,
+.lu-embed .lu-btn:focus {
+	background: #4ff09b;
+	color: #080b18;
+	border-color: #080b18;
+	box-shadow: 0 6px 0 #1c7a4b;
+}
+.lu-embed .lu-btn:active {
+	transform: translateY(6px);
+	box-shadow: 0 0 0 #1c7a4b;
+}
+.lu-embed .lu-btn[disabled] {
+	cursor: default;
+	background: #1c7a4b;
+	color: #080b18;
+	opacity: 1;
+}
+
+.lu-embed .lu-status {
+	margin: 18px 0 0;
+	font-family: 'Press Start 2P', monospace;
+	font-size: 9px;
+	color: #35d07f;
+	line-height: 1.8;
+}
+.lu-embed.is-error .lu-status { color: #ff4d4d; }
+
+.lu-embed .lu-trap {
+	position: absolute;
+	left: -9999px;
+	top: -9999px;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}
+
+.lu-embed .lu-sr {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.lu-embed .lu-btn { transition: none; }
+}
