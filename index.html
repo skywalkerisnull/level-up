@@ -40,6 +40,24 @@
   @media (max-width:420px){
     .nav-links{gap:18px !important;font-size:12px}
   }
+
+  /* Crew sprites. Both poses are stacked in the same frame and cross-faded, so
+     the swap cannot flicker while the second image loads. image-rendering
+     keeps the pixel art blocky instead of smearing it when it scales. */
+  .crew-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center bottom;image-rendering:pixelated}
+  .crew-art-jump{opacity:0;transform:translateY(-6%)}
+  .crew-card:hover .crew-art-idle{opacity:0}
+  .crew-card:hover .crew-art-jump{opacity:1}
+  .crew-view{opacity:0}
+  .crew-card:hover .crew-view{opacity:1}
+  /* Touch has no hover, so the jump pose would never be reachable and the
+     prompt would never appear. Show the prompt permanently instead. */
+  @media (hover:none){
+    .crew-view{opacity:1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .crew-art-jump{transform:none}
+  }
 </style>
 </helmet>
 
@@ -275,14 +293,12 @@
       </div>
       <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:18px;align-items:end">
         <sc-for list="{{ crew }}" as="member" hint-placeholder-count="6">
-        <div onClick="{{ member.open }}" onKeyDown="{{ member.keyOpen }}" role="button" tabindex="0" aria-label="{{ member.aria }}" style="display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;animation:{{ idleAnim }};animation-delay:{{ member.delay }}" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
+        <div class="crew-card" onClick="{{ member.open }}" onKeyDown="{{ member.keyOpen }}" role="button" tabindex="0" aria-label="{{ member.aria }}" style="display:flex;flex-direction:column;align-items:center;gap:12px;cursor:pointer;animation:{{ idleAnim }};animation-delay:{{ member.delay }}" style-hover="filter:drop-shadow(0 0 12px rgba(255,198,26,.6))">
           <div style="font-family:'Press Start 2P',monospace;font-size:10px;color:#fff;text-shadow:2px 2px 0 #000">{{ member.name }}</div>
-          <div style="position:relative;width:100%;aspect-ratio:3/4;border:3px solid #0b1024;overflow:hidden">
-            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(#1b254e,#101838)">
-              <div style="width:52px;height:52px;display:grid;place-items:center;background:{{ member.color }};border:4px solid rgba(0,0,0,.4);font-family:'Press Start 2P',monospace;font-size:20px;color:#0b1024">{{ member.initial }}</div>
-              <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.4)">SPRITE TBC</div>
-            </div>
-            <div style="position:absolute;inset:0;background:rgba(11,16,36,.82);display:grid;place-items:center;opacity:0;transition:opacity .16s ease;font-family:'Press Start 2P',monospace;font-size:9px;color:{{ member.color }}" style-hover="opacity:1">VIEW ▸</div>
+          <div style="position:relative;width:100%;aspect-ratio:3/4;border:3px solid #0b1024;overflow:hidden;background:linear-gradient(#1b254e,#101838)">
+            <img class="crew-art crew-art-idle" src="{{ member.sprite }}" alt="{{ member.alt }}" loading="lazy" width="200" height="340">
+            <img class="crew-art crew-art-jump" src="{{ member.spriteJump }}" alt="" aria-hidden="true" loading="lazy" width="200" height="340">
+            <div class="crew-view" style="position:absolute;left:0;right:0;bottom:0;padding:7px 0;background:rgba(11,16,36,.86);text-align:center;transition:opacity .16s ease;font-family:'Press Start 2P',monospace;font-size:8px;color:{{ member.color }}">VIEW ▸</div>
           </div>
           <div style="width:100%;padding:8px 6px 14px;text-align:center;font:600 12px/1.35 Archivo,sans-serif;color:rgba(255,255,255,.72)">{{ member.role }}</div>
         </div>
@@ -455,9 +471,8 @@
 
       <div style="display:flex;flex-wrap:wrap;gap:26px;padding:28px">
         <div style="flex:none;width:150px;max-width:100%">
-          <div style="position:relative;width:100%;aspect-ratio:3/4;border:4px solid #0b1024;background:linear-gradient(#1b254e,#101838);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-            <div style="width:66px;height:66px;display:grid;place-items:center;background:{{ activeMember.color }};border:5px solid rgba(0,0,0,.4);font-family:'Press Start 2P',monospace;font-size:26px;color:#0b1024">{{ activeMember.initial }}</div>
-            <div style="font-family:'Press Start 2P',monospace;font-size:7px;color:rgba(255,255,255,.4)">SPRITE TBC</div>
+          <div style="position:relative;width:100%;aspect-ratio:3/4;border:4px solid #0b1024;background:linear-gradient(#1b254e,#101838);overflow:hidden">
+            <img class="crew-art" src="{{ activeMember.sprite }}" alt="{{ activeMember.alt }}" width="200" height="340">
           </div>
           <div style="margin-top:12px;border:3px solid #1d2547;background:#0b1024;padding:10px;text-align:center;font-family:'Press Start 2P',monospace;font-size:8px;color:#6f84c4;line-height:1.9">LV {{ activeMember.level }}<br>TYC CREW</div>
         </div>
@@ -525,6 +540,16 @@ const CREW_MEMBERS = [
     stats: [{ label: "SYSTEMS", pct: "91%" }, { label: "CONTINGENCY", pct: "87%" }, { label: "SLEEP", pct: "31%" }],
   },
 ];
+
+/**
+ * Sprites were cut from the two Team TYC scene renders — the standing one and
+ * the "respawning" jump — and keyed to transparent. Standing is the resting
+ * pose; the jump shows on hover. Paths are relative so this works the same
+ * opened directly or loaded into an iframe from another domain.
+ */
+function spritePath(name, jumping) {
+  return "./sprites/" + name.toLowerCase() + (jumping ? "-jump" : "") + ".png";
+}
 
 /**
  * Fisher-Yates. Every ordering is equally likely, which the common
@@ -644,6 +669,12 @@ class Component extends DCLogic {
       crew: CREW.map((m, i) => ({
         ...m,
         initial: m.name.charAt(0),
+        sprite: spritePath(m.name),
+        spriteJump: spritePath(m.name, true),
+        // Built here rather than in the attribute: the template only
+        // substitutes an interpolation that is the whole value, so
+        // alt="{{ a }}, {{ b }}" silently produces no attribute at all.
+        alt: m.name + ", " + m.role,
         delay: (i * 0.2) + "s",
         aria: "Open the player card for " + m.name + ", " + m.role,
         open: () => this.setState({ activeIndex: i }),
@@ -654,7 +685,12 @@ class Component extends DCLogic {
           }
         },
       })),
-      activeMember: active && { ...active, initial: active.name.charAt(0) },
+      activeMember: active && {
+        ...active,
+        initial: active.name.charAt(0),
+        sprite: spritePath(active.name),
+        alt: active.name + ", " + active.role,
+      },
       closeMember: () => this.setState({ activeIndex: null }),
       stopClick: (e) => e && e.stopPropagation(),
     };
