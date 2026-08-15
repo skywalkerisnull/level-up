@@ -100,8 +100,41 @@ function levelup_signup_count() {
 }
 
 /**
- * CSV export — how addresses get out of here and into Mailjet when it is time
- * to send something.
+ * Every stored address, oldest first.
+ *
+ * @return WP_Post[]
+ */
+function levelup_all_signups() {
+	return get_posts(
+		array(
+			'post_type'              => LEVELUP_CPT,
+			'post_status'            => 'publish',
+			'posts_per_page'         => -1,
+			'orderby'                => 'date',
+			'order'                  => 'ASC',
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
+		)
+	);
+}
+
+function levelup_export_url() {
+	return wp_nonce_url( admin_url( 'admin-post.php?action=levelup_export' ), 'levelup_export' );
+}
+
+/**
+ * Spreadsheets treat a leading =, +, - or @ as the start of a formula, so a
+ * value like "+tag@example.com" would execute rather than display. Prefixing
+ * with an apostrophe keeps it a string. Rare for an address, but this file is
+ * opened in Excel by definition.
+ */
+function levelup_csv_safe( $value ) {
+	$value = (string) $value;
+	return ( '' !== $value && strpos( '=+-@', $value[0] ) !== false ) ? "'" . $value : $value;
+}
+
+/**
+ * CSV export — how addresses get out of here and into whatever sends the email.
  */
 add_action(
 	'admin_post_levelup_export',
@@ -111,28 +144,100 @@ add_action(
 		}
 		check_admin_referer( 'levelup_export' );
 
-		$rows = get_posts(
-			array(
-				'post_type'      => LEVELUP_CPT,
-				'post_status'    => 'publish',
-				'posts_per_page' => -1,
-				'orderby'        => 'date',
-				'order'          => 'ASC',
-			)
-		);
+		$rows = levelup_all_signups();
 
 		nocache_headers();
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename=level-up-signups-' . gmdate( 'Y-m-d' ) . '.csv' );
 
 		$out = fopen( 'php://output', 'w' );
+		// Excel assumes the system codepage without this and mangles anything
+		// non-ASCII in an address.
+		fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 		fputcsv( $out, array( 'email', 'signed_up_utc' ) );
 		foreach ( $rows as $row ) {
-			fputcsv( $out, array( $row->post_title, get_post_time( 'Y-m-d H:i:s', true, $row ) ) );
+			fputcsv(
+				$out,
+				array(
+					levelup_csv_safe( $row->post_title ),
+					get_post_time( 'Y-m-d H:i:s', true, $row ),
+				)
+			);
 		}
 		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions
 
 		exit;
+	}
+);
+
+/**
+ * Export controls on the signups list itself.
+ *
+ * The settings screen has the same button, but this is the screen someone is
+ * looking at when they want the addresses, so it belongs here too.
+ */
+add_action(
+	'manage_posts_extra_tablenav',
+	function ( $which ) {
+		if ( 'top' !== $which ) {
+			return;
+		}
+		$screen = get_current_screen();
+		if ( ! $screen || LEVELUP_CPT !== $screen->post_type || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		$rows  = levelup_all_signups();
+		$count = count( $rows );
+		?>
+		<div class="alignleft actions" style="display:flex;gap:6px;align-items:center">
+			<a class="button button-primary" href="<?php echo esc_url( levelup_export_url() ); ?>">
+				<?php
+				printf(
+					/* translators: %s: number of signups */
+					esc_html( _n( 'Export %s address (CSV)', 'Export all %s addresses (CSV)', $count, 'level-up-embed' ) ),
+					esc_html( number_format_i18n( $count ) )
+				);
+				?>
+			</a>
+			<?php if ( $count ) : ?>
+				<button type="button" class="button" id="lu-copy-all">
+					<?php esc_html_e( 'Copy addresses', 'level-up-embed' ); ?>
+				</button>
+				<span id="lu-copy-done" style="color:#0a7c2f;display:none"><?php esc_html_e( 'Copied.', 'level-up-embed' ); ?></span>
+				<textarea id="lu-all-addresses" readonly tabindex="-1" aria-hidden="true"
+					style="position:absolute;left:-9999px;width:1px;height:1px"><?php
+					echo esc_textarea( implode( ', ', wp_list_pluck( $rows, 'post_title' ) ) );
+				?></textarea>
+				<script>
+				(function () {
+					var btn = document.getElementById('lu-copy-all');
+					var box = document.getElementById('lu-all-addresses');
+					var ok  = document.getElementById('lu-copy-done');
+					if (!btn || !box) return;
+					btn.addEventListener('click', function () {
+						// execCommand is the fallback: the async clipboard API
+						// needs a secure context, and plenty of WP admins are
+						// still served over plain http on a local network.
+						var done = false;
+						if (navigator.clipboard && window.isSecureContext) {
+							navigator.clipboard.writeText(box.value).then(function () {
+								ok.style.display = 'inline';
+							});
+							done = true;
+						}
+						if (!done) {
+							box.style.position = 'static';
+							box.select();
+							try { document.execCommand('copy'); ok.style.display = 'inline'; } catch (e) {}
+							box.style.position = 'absolute';
+						}
+					});
+				})();
+				</script>
+			<?php endif; ?>
+		</div>
+		<?php
 	}
 );
 

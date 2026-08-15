@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Level Up Embed
  * Description:       Embeds the Level Up landing page as an auto-resizing iframe and collects waitlist signups into WordPress.
- * Version:           1.2.2
+ * Version:           1.3.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            Toowoomba Young Chamber
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'LEVELUP_VERSION', '1.2.2' );
+define( 'LEVELUP_VERSION', '1.3.0' );
 define( 'LEVELUP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LEVELUP_URL', plugin_dir_url( __FILE__ ) );
 define( 'LEVELUP_OPTION', 'levelup_settings' );

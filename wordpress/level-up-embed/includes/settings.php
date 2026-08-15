@@ -324,8 +324,11 @@ function levelup_render_settings_page() {
 		<p>
 			<a class="button" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . LEVELUP_CPT ) ); ?>"><?php esc_html_e( 'View signups', 'level-up-embed' ); ?></a>
 			<?php if ( $count ) : ?>
-				<a class="button button-primary" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=levelup_export' ), 'levelup_export' ) ); ?>"><?php esc_html_e( 'Export CSV', 'level-up-embed' ); ?></a>
+				<a class="button button-primary" href="<?php echo esc_url( levelup_export_url() ); ?>"><?php esc_html_e( 'Export all as CSV', 'level-up-embed' ); ?></a>
 			<?php endif; ?>
+		</p>
+		<p class="description">
+			<?php esc_html_e( 'The same export, plus a "copy addresses" shortcut, is on the signups list itself.', 'level-up-embed' ); ?>
 		</p>
 	</div>
 	<?php

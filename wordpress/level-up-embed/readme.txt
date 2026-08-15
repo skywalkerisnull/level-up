@@ -3,7 +3,7 @@ Contributors: toowoombayoungchamber
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 
 Embeds the Level Up landing page as an auto-resizing iframe and collects
@@ -60,6 +60,11 @@ No. They are the mailing list and exist nowhere else, so uninstalling removes
 only the settings. Delete the entries by hand if you want them gone.
 
 == Changelog ==
+
+= 1.3.0 =
+* Export controls moved onto the signups list, where you actually look for them.
+* Added a "copy addresses" button for pasting straight into a mail tool.
+* CSV now carries a UTF-8 BOM and neutralises spreadsheet formula injection.
 
 = 1.2.2 =
 * Hide the embedded page's footer when something is rendered below the frame.

@@ -61,8 +61,11 @@ Addresses are stored in WordPress. There is no third-party account and no API
 key anywhere in the plugin.
 
 - **Settings → Level Up Signups** lists them, with search and deletion.
-- **Export CSV** on the settings screen gives you `email,signed_up_utc` to
-  import into whatever you send from.
+- **Export all N addresses (CSV)** sits at the top of that list, and again on
+  the settings screen. The file is `email,signed_up_utc`, oldest first, with a
+  UTF-8 BOM so Excel opens it correctly.
+- **Copy addresses** next to it puts every address on the clipboard as a
+  comma-separated list, for pasting straight into a mail tool's bulk-add box.
 - **Email me whenever someone signs up** is an optional notification. Signups
   are stored either way, so a mail failure never loses an address.
 
@@ -75,7 +78,8 @@ is used briefly as a rate-limit key and never written down.
 
 ### Getting addresses into a mailing tool
 
-Export the CSV and import it. Nothing syncs automatically, which is the point:
+Export the CSV and import it, or use **Copy addresses** and paste the lot into a
+bulk-add box. Nothing syncs automatically, which is the point:
 there is no API key to expire, no provider API to change under you, and no
 silent failure mode where signups vanish into a misconfigured integration. The
 cost is a manual export before each send — a couple of minutes, against a
