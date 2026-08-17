@@ -154,7 +154,7 @@
       <div style="border:3px solid #1d2547;background:#0d1226;padding:26px" style-hover="border-color:#ffc61a;transform:translateY(-4px)">
         <div style="width:38px;height:38px;background:#ffc61a;margin-bottom:22px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.22)"></div>
         <h3 style="margin:0 0 10px;font:800 21px/1.2 Archivo,sans-serif">Skills, not slogans</h3>
-        <p style="margin:0;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.6)">Short, sharp sessions on the things nobody teaches you — negotiating, pricing yourself, leading before you have the title.</p>
+        <p style="margin:0;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.6)">Short, sharp sessions on the things nobody teaches you: intergenerational relationships, health and wellness, and leadership.</p>
       </div>
       <div style="border:3px solid #1d2547;background:#0d1226;padding:26px" style-hover="border-color:#35d07f;transform:translateY(-4px)">
         <div style="width:38px;height:38px;background:#35d07f;margin-bottom:22px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.22)"></div>
@@ -246,7 +246,7 @@
         <span style="font-family:'Press Start 2P',monospace;font-size:11px;color:#35d07f;flex:none;width:52px">3</span>
         <div style="flex:1;min-width:200px">
           <h3 style="margin:0 0 6px;font:800 20px/1.2 Archivo,sans-serif">The panel</h3>
-          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">Local leaders on the questions that don't have a tidy answer — money, burnout, staying or going.</p>
+          <p style="margin:0;font:500 15px/1.5 Archivo,sans-serif;color:rgba(238,241,255,.6)">Local leaders on the questions that don't have a tidy answer — working across generations, staying well, and leading before you feel ready. The floor gets the mic too.</p>
         </div>
         <span style="font-family:'Press Start 2P',monospace;font-size:9px;color:#6f84c4;flex:none">45 MIN</span>
       </div>
@@ -370,7 +370,7 @@
           <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">Do I have to be a chamber member?</span>
           <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
         </summary>
-        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">No. Level Up is open to anyone building a career or a business in the Toowoomba region. Members just get a discount.</div>
+        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">No. Level Up is open to anyone building a career or a business in the Toowoomba region.</div>
       </details>
       <details style="border:3px solid #1d2547;background:#0d1226">
         <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
@@ -378,7 +378,7 @@
           <span style="font:700 17px/1.35 Archivo,sans-serif;flex:1">How long is it? Do I need the whole day off?</span>
           <span style="font-family:'Press Start 2P',monospace;font-size:14px;color:#3f4f8c;flex:none">+</span>
         </summary>
-        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">It's a half day — roughly four hours door to door, including the breaks. Exact start time is confirmed with the venue, so you'll know well before you have to ask your manager.</div>
+        <div style="padding:0 22px 22px 58px;font:500 16px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">It's a half day — roughly four hours door to door, including the breaks. Exact start time is confirmed with the venue.</div>
       </details>
       <details style="border:3px solid #1d2547;background:#0d1226">
         <summary style="display:flex;align-items:center;gap:18px;padding:20px 22px">
@@ -470,8 +470,7 @@
         <div style="flex:1;min-width:240px">
           <h3 style="margin:0 0 6px;font:900 clamp(28px,5vw,40px)/1 Archivo,sans-serif;letter-spacing:-.03em;text-transform:uppercase">{{ activeMember.name }}</h3>
           <div style="display:inline-block;font-family:'Press Start 2P',monospace;font-size:9px;color:#080b18;background:{{ activeMember.color }};padding:7px 10px;margin-bottom:18px">{{ activeMember.role }}</div>
-          <p style="margin:0 0 16px;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.7);text-wrap:pretty">{{ activeMember.bio }}</p>
-          <p style="margin:0 0 20px;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.5);text-wrap:pretty">{{ activeMember.quote }}</p>
+          <p style="margin:0 0 22px;font:500 15px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.7);text-wrap:pretty">{{ activeMember.bio }}</p>
 
           <div style="display:flex;flex-direction:column;gap:10px">
             <sc-for list="{{ activeMember.stats }}" as="stat" hint-placeholder-count="3">
@@ -495,38 +494,32 @@
 const CREW_MEMBERS = [
   {
     name: "MAK", role: "Marketing", color: "#ffc61a", level: 12,
-    bio: "Placeholder bio — Mak runs the socials, the brand and the reason you found this page at all. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    bio: "Mak runs the socials, the brand and the reason you found this page at all.",
     stats: [{ label: "REACH", pct: "89%" }, { label: "DESIGN EYE", pct: "93%" }, { label: "MEMES", pct: "99%" }],
   },
   {
     name: "TAHNEE", role: "Event Management", color: "#35d07f", level: 11,
-    bio: "Placeholder bio — Tahnee runs the room on the day: venue, suppliers, and the bit where a hundred moving parts have to land on time. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    bio: "Tahnee runs the room on the day: venue, suppliers, and the bit where a hundred moving parts have to land on time.",
     stats: [{ label: "LOGISTICS", pct: "92%" }, { label: "CALM", pct: "78%" }, { label: "SUPPLIERS", pct: "88%" }],
   },
   {
     name: "YOSSI", role: "Sales & MC", color: "#3aa0ff", level: 13,
-    bio: "Placeholder bio — Yossi sells the room on the idea, then holds the mic on the day and keeps four rounds moving to time. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    bio: "Yossi sells the room on the idea, then holds the mic on the day and keeps the whole thing moving to time.",
     stats: [{ label: "PITCHING", pct: "94%" }, { label: "STAGE CRAFT", pct: "90%" }, { label: "TIMEKEEPING", pct: "64%" }],
   },
   {
     name: "LAILAH", role: "Run Sheet & Deliverables", color: "#ff4d4d", level: 10,
-    bio: "Placeholder bio — Lailah owns the run sheet and everything hanging off it: who is doing what, and by when. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    bio: "Lailah owns the run sheet and everything hanging off it: who is doing what, and by when.",
     stats: [{ label: "RUN SHEET", pct: "95%" }, { label: "DEADLINES", pct: "88%" }, { label: "CHASING", pct: "91%" }],
   },
   {
     name: "LEIHAN", role: "Sponsors", color: "#a78bfa", level: 11,
-    bio: "Placeholder bio — Leihan looks after sponsors and partners, and makes the case for backing young talent in Toowoomba. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    bio: "Leihan looks after sponsors and partners, and makes the case for backing young talent in Toowoomba.",
     stats: [{ label: "THE ASK", pct: "94%" }, { label: "FOLLOW-UP", pct: "85%" }, { label: "COFFEE", pct: "70%" }],
   },
   {
-    name: "ASH", role: "Q&A & Website", color: "#f97316", level: 12,
-    bio: "Placeholder bio — Ash builds and runs this site, and the Q&A behind it: collecting the questions and making sure the good ones actually get asked. Swap this copy for the real thing before launch.",
-    quote: "Placeholder line — a sentence about why they volunteered.",
+    name: "ASHLEY", role: "Q&A & Website", color: "#f97316", level: 12,
+    bio: "Ashley builds and runs this site, and the Q&A behind the panel and Meet the Boss: collecting the questions and making sure the good ones actually get asked.",
     stats: [{ label: "SYSTEMS", pct: "91%" }, { label: "QUESTIONS", pct: "96%" }, { label: "SLEEP", pct: "31%" }],
   },
 ];
