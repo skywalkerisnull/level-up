@@ -300,22 +300,31 @@
   </section>
 
   <section id="crew" style="max-width:1160px;margin:0 auto;padding:88px 24px 24px;scroll-margin-top:70px">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:14px">
-      <div style="display:flex;align-items:baseline;gap:16px">
-        <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-4</span>
-        <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Team TYC</h2>
+    <!-- The logo sits beside the heading AND the line under it, not just the
+         heading. It is taller than the heading on its own, so pairing them
+         alone stretched that row and pushed this text away from its title. -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:46px">
+      <div style="flex:1;min-width:min(100%,300px)">
+        <div style="display:flex;align-items:baseline;gap:16px;margin-bottom:14px">
+          <span style="font-family:'Press Start 2P',monospace;font-size:10px;color:#ffc61a">1-4</span>
+          <h2 style="margin:0;font:900 clamp(34px,5vw,58px)/1 Archivo,sans-serif;letter-spacing:-.035em;text-transform:uppercase">Team TYC</h2>
+        </div>
+        <p style="margin:0;max-width:600px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">
+          Six volunteers behind the scenes. Select a player to read their card. Together we level up. <span style="color:#ff4d4d">♥</span>
+        </p>
       </div>
       <!-- The chamber logo is dark navy artwork, roughly 2:1 against this
            background, so it sits on a white plate rather than straight on the
            page. The plate is styled like the rest of the furniture here: hard
            edges, chunky border, offset shadow. -->
-      <div style="flex:none;background:#fff;border:3px solid #080b18;box-shadow:0 5px 0 rgba(0,0,0,.45);padding:12px 16px">
+      <!-- margin-inline:auto rather than a breakpoint. Beside the text the
+           left column has flex:1 and eats all the free space, so the auto
+           margins resolve to zero and this stays hard right. Once it wraps to
+           a line of its own that space is free again, so it centres itself. -->
+      <div style="flex:none;margin-inline:auto;background:#fff;border:3px solid #080b18;box-shadow:0 5px 0 rgba(0,0,0,.45);padding:12px 16px">
         <img src="./tyc-logo.png" alt="Toowoomba Young Chamber" width="229" height="400" style="display:block;height:120px;width:auto">
       </div>
     </div>
-    <p style="margin:0 0 46px;max-width:600px;font:500 18px/1.6 Archivo,sans-serif;color:rgba(238,241,255,.66)">
-      Six volunteers behind the scenes. Select a player to read their card. Together we level up. <span style="color:#ff4d4d">♥</span>
-    </p>
 
     <div style="position:relative;border:4px solid #1d2547;background:linear-gradient(#0c1330 0%,#122048 62%,#153a2a 62%,#0f2a1e 100%);padding:44px 20px 0;overflow:hidden">
       <div style="position:absolute;top:26px;left:0;right:0;display:flex;justify-content:center;gap:60px;opacity:.5;animation:drift 18s ease-in-out infinite alternate">
